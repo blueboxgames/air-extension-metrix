@@ -1,2 +1,18 @@
+.vscode
+.gradle
+.settings
+
+# ActionScript
 # Generated swc libraries
-swc/
+lib_as3/swc/
+
+#Java
+# These are compile time only classes.
+lib_android/libs/
+
+# Not required cause we have gradle package.
+lib_android/.classpath
+lib_android/.project
+
+# Build files
+lib_android/build

@@ -10,6 +10,7 @@ package ir.metrix.sdk
 	{
 		static private var _instance:Metrix;
 		private var _context:ExtensionContext;
+		private var _appID:String;
 		
 		public function Metrix()
 		{
@@ -38,6 +39,26 @@ package ir.metrix.sdk
 		public function dispose():void
 		{
 			this._context.dispose();
+		}
+
+		public function get appID():String
+		{
+			return this._appID;
+		}
+
+		public function set appID(id:String):void
+		{
+			this._appID = id;
+		}
+
+		public function initialize():void
+		{
+			if(this._appID == null)
+			{
+				trace("<ir.metrix.extension> you must setup you app id before initializing.");
+				return;
+			}
+			this._context.call("metrix", "initialize", this._appID);
 		}
 
 		/**
@@ -98,9 +119,9 @@ package ir.metrix.sdk
 		/**
 		 * 
 		 */
-		public function set sessionTimeoutMillis(milisec:int):void
+		public function set sessionTimeoutMillis(timeout:Number):void
 		{
-			this._context.call("metrix", "setSessionTimeoutMillis", milisec);
+			this._context.call("metrix", "setSessionTimeoutMillis", timeout);
 		}
 
 		/**
