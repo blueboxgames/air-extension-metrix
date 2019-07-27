@@ -16,7 +16,7 @@ public class MetrixFunction implements FREFunction
 			return null;
 		}
 
-		// MetrixANE.getInstance().aeContext = (MetrixExtensionContext) context;
+		MetrixANE.getInstance().nativeContext = (MetrixExtensionContext) context;
 		
 		try {
 			String command = args[0].getAsString();
@@ -102,7 +102,7 @@ public class MetrixFunction implements FREFunction
 				return FREObject.newObject( MetrixANE.getInstance().getSessionNum() );
 			}
 
-			if ( command.equalsIgnoreCase("newEvent") )
+			if ( command.equalsIgnoreCase("eventAttribute") )
 			{
 				// Generate HashMap from arguments.
 
@@ -110,14 +110,39 @@ public class MetrixFunction implements FREFunction
 				throw new Error("Not Implemented");
 			}
 
+			if ( command.equalsIgnoreCase("eventAttribute") )
+			{
+				String name = args[1].getAsString();
+				String key = args[2].getAsString();
+				String value = args[3].getAsString();
+				MetrixEventHelper.getInstance().insertAttribute(name, key, value);
+				return null;
+			}
+
+			if ( command.equalsIgnoreCase("eventMetric") )
+			{
+				String name = args[1].getAsString();
+				String key = args[2].getAsString();
+				Double value = args[3].getAsDouble();
+				MetrixEventHelper.getInstance().insertMetrics(name, key, value);
+				return null;
+			}
+
+			if ( command.equalsIgnoreCase("newEvent") )
+			{
+				String name = args[1].getAsString();
+				MetrixEventHelper.getInstance().sendEvent(name);
+				return null;
+			}
+
 			if ( command.equalsIgnoreCase("newRevenue") )
 			{
 				String name = args[1].getAsString();
 				double amount = args[2].getAsDouble();
-				int currency = args[3].getAsInt();
+				int currencyValue = args[3].getAsInt();
 				String optional = args[4].getAsString();
 
-				MetrixANE.getInstance().newRevenue(name, amount, currency, optional);
+				MetrixANE.getInstance().newRevenue(name, amount, currencyValue, optional);
 				return null;
 			}
 

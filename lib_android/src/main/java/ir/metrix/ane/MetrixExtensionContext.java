@@ -1,10 +1,10 @@
 package ir.metrix.ane;
 
-import java.util.Map;
-import java.util.HashMap;
-
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MetrixExtensionContext extends FREContext
 {

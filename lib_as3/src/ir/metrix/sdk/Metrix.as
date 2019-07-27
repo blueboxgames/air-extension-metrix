@@ -162,9 +162,25 @@ package ir.metrix.sdk
 			return this._context.call("metrix", "getSessionNum") as int;
 		}
 
-		public function newEvent(eventName:String, attributes:Object, metrics:Object):void
+		public function newEvent(eventName:String):MetrixEvent
 		{
-			this._context.call("metrix", "newEvent", eventName, attributes, metrics);
+			var metrixEvent:MetrixEvent = new MetrixEvent();
+			metrixEvent.name = eventName;
+			return metrixEvent;
+		}
+
+		public function sendEvent(metrixEvent:MetrixEvent):void
+		{
+			var key:String;
+			for each(key in metrixEvent.attributes)
+			{
+				this._context.call("metrix", "eventAttribute", metrixEvent.name, key, metrixEvent.attributes[key]);
+			}
+			for each(key in metrixEvent.metrics)
+			{
+				this._context.call("metrix", "eventMetric", metrixEvent.name, key, metrixEvent.metrics[key]);
+			}
+			this._context.call("metrix", "newEvent", metrixEvent.name);
 		}
 
 		public function newRevenue(name:String, amount:Number, currency:int=0, optional:String=null):void

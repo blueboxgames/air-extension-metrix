@@ -1,5 +1,6 @@
 .vscode
 .gradle
+.idea
 .settings
 
 # ActionScript
@@ -13,6 +14,8 @@ lib_android/libs/
 # Not required cause we have gradle package.
 lib_android/.classpath
 lib_android/.project
+lib_android/*.iml
+lib_android/local.properties
 
 # Build files
 lib_android/build
