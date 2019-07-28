@@ -5,7 +5,12 @@ package ir.metrix.scenes
 
 	import starling.events.Event;
 	import starling.events.ResizeEvent;
+	
+	import feathers.controls.Button;
+	import feathers.layout.AnchorLayoutData;
+
 	import ir.metrix.sdk.Metrix;
+	import ir.metrix.sdk.MetrixEvent;
 
 	public class MainScene extends Screen
 	{
@@ -28,9 +33,21 @@ package ir.metrix.scenes
 			this.name = "MainView";
 
 			this.layout = new AnchorLayout();
-			Metrix.instance.appID = "wwjrsawgehzhzti";
+			Metrix.instance.appID = APPID;
 			Metrix.instance.initialize();
-			Metrix.instance.newEvent("testEvent");
+			
+			var metrixEventButton:Button = new Button();
+			metrixEventButton.label = "Send Metrix Event";
+			metrixEventButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
+			metrixEventButton.addEventListener(Event.TRIGGERED, metrixEventButton_triggeredHandler);
+			this.addChild(metrixEventButton);
+		}
+
+		protected function metrixEventButton_triggeredHandler(event:Event):void
+		{
+			// Event Slug must be recieved from dashboard.
+			var metrixEvent:MetrixEvent = Metrix.instance.newEvent("event_slug");
+			Metrix.instance.sendEvent(metrixEvent);
 		}
 	}
 }
