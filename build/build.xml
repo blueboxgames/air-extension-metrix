@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Metrix native extension build script" default="all">
+
+    <!-- Config -->
+    <property file="build.properties"/>
+		<property environment="env"/>
+
+    <!-- All -->
+    <target name="all" depends="swc,android,package" description="Full build of extension"/>
+
+    <!--
+    ================================================================
+                                Android
+    ================================================================
+    -->
+    <target name="android" description="Build Android Library.">
+      <echo message="Compiling android source files - using Gradle:"/>
+			<exec executable="../lib_android/gradlew.bat" failonerror="false" dir="../lib_android">
+				<arg value="--version"/>
+			</exec>
+			<exec executable="../lib_android/gradlew.bat" failonerror="true" dir="../lib_android">
+				<arg value="assembleRelease"/>
+			</exec>
+      <mkdir dir="temp/android"/>
+			<unzip src="../lib_android/build/outputs/aar/lib_android-release.aar" dest="temp/android">
+				<patternset>
+					<include name="classes.jar"/>
+   			</patternset>
+			</unzip>
+			<move file="temp/android/classes.jar" tofile="temp/android/${name}.jar" overwrite="true"/>
+			
+      <!-- Dependency Libraries -->
+      <copy file="../lib_android/libs/ir.metrix/metrix-${metrix.version}.jar" tofile="temp/android/metrixSDK.jar"/>
+			<copy file="../lib_android/libs/com.android.installreferrer/installreferrer-${installreferrer.version}.jar" tofile="temp/android/installreferrer.jar"/>
+			<copy file="../lib_android/libs/com.squareup.retrofit2/retrofit/retrofit-${retrofit.version}.jar" tofile="temp/android/retrofit.jar"/>
+			<copy file="../lib_android/libs/com.squareup.retrofit2/converter-gson/converter-gson-${retrofit.version}.jar" tofile="temp/android/converter-gson.jar"/>
+			<copy file="../lib_android/libs/com.squareup.retrofit2/converter-scalars/converter-scalars-${retrofit.version}.jar" tofile="temp/android/converter-scalars.jar"/>
+			<copy file="../lib_android/libs/com.squareup.okio/okio-${okio.version}.jar" tofile="temp/android/okio.jar"/>
+			<copy file="../lib_android/libs/com.squareup.okhttp3/okhttp/okhttp-${okhttp3.version}.jar" tofile="temp/android/okhttp3.jar"/>
+			<copy file="../lib_android/libs/com.squareup.okhttp3/logging-interceptor/logging-interceptor-${okhttp3.version}.jar" tofile="temp/android/logging-interceptor.jar"/>
+			<delete dir="../lib_android/build/"/>
+    </target>
+
+    <!--
+    ================================================================
+                            Actionscript (SWC)
+    ================================================================
+    -->
+    <target name="swc" description="Build SWC library">
+        <mkdir dir="temp/swc/content/"/>
+        <exec executable="${env.FLEX_HOME}/bin/compc.bat" failonerror="true">
+            <env key="AIR_SDK_HOME" value="${env.FLEX_HOME}"/>
+            <arg line='-source-path ../lib_as3/src'/>
+            <arg line='-include-sources ../lib_as3/src'/>
+            <arg line='-output temp/swc/${name}.swc'/>
+            <arg line='-external-library-path+="${env.FLEX_HOME}/frameworks/libs/air/airglobal.swc"'/>
+        </exec>
+
+        <unzip src="temp/swc/${name}.swc" dest="temp/swc/content" overwrite="true"/>
+        <!-- Copy .swc to bin directory -->
+        <copy file="temp/swc/${name}.swc" tofile="../dist/${extensionID}.swc" overwrite="true" />
+
+        <copy file="temp/swc/content/library.swf" todir="temp/android" overwrite="true"/>
+        <copy file="temp/swc/content/library.swf" todir="temp/default" overwrite="true"/>
+    </target>
+
+    <!--
+    ================================================================
+                                Package
+    ================================================================
+    -->
+    <target name="package" description="Create the extension package">
+        <exec executable="${env.FLEX_HOME}/bin/adt.bat" failonerror="true" dir="temp/">
+            <arg value="-package"/>
+            <arg value="-target"/>
+            <arg value="ane"/>
+            <arg value="${extensionID}.ane"/>
+            <arg value="../extension.xml"/>
+            <arg line="-swc swc/${name}.swc"/>
+            <arg line="-platform Android-ARM -platformoptions ../platform-android.xml -C android/ ."/>
+            <arg line="-platform Android-x86 -platformoptions ../platform-android.xml -C android/ ."/>
+            <arg line="-platform default -C default/ ."/>
+        </exec>
+        <move file="temp/${extensionID}.ane" todir="../dist"/>
+        <delete dir="temp/"/>
+    </target>
+
+		<!--
+    ================================================================
+                                Example
+    ================================================================
+		-->
+
+</project>

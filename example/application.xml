@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<application xmlns="http://ns.adobe.com/air/application/32.0">
+  <id>ir.metrix.example</id>
+  <versionNumber>1.0</versionNumber>
+  <name>Metrix Example</name>
+	<filename>Metrix</filename>
+  <initialWindow>
+    <title>Metrix</title>
+    <content></content>
+    <transparent>false</transparent>
+    <visible>true</visible>
+    <renderMode>direct</renderMode>
+    <minimizable>false</minimizable>
+    <maximizable>false</maximizable>
+    <resizable>false</resizable>
+    <depthAndStencil>true</depthAndStencil>
+  </initialWindow>
+
+	<android>
+    <manifestAdditions>
+<![CDATA[
+<manifest android:installLocation="auto">
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<application android:enabled="true" >
+	  <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+    <activity android:name="ir.metrix.ane.MetrixANEActivity"/>
+    <receiver
+      android:name="ir.metrix.sdk.MetrixReferrerReceiver"
+      android:permission="android.permission.INSTALL_PACKAGES"
+      android:exported="true" >
+      <intent-filter>
+        <action android:name="com.android.vending.INSTALL_REFERRER" />
+      </intent-filter>
+    </receiver>
+	</application>	
+</manifest>]]>
+		</manifestAdditions>
+  </android>
+
+	<extensions>
+		<extensionID>ir.metrix.ane</extensionID>
+    <extensionID>com.google.android.gms.play-services-base</extensionID>
+    <extensionID>com.marpies.ane.googleplayservices.analytics</extensionID>
+    <extensionID>com.google.code.gson.gson</extensionID>
+	</extensions>
+</application>

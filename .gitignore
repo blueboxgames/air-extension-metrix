@@ -19,3 +19,4 @@ lib_android/local.properties
 
 # Build files
 lib_android/build
+dist/

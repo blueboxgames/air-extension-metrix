@@ -13,6 +13,7 @@ public class MetrixFunction implements FREFunction
 	{
 		if(context==null)
 		{
+			Log.i("ir.metrix.Metrix", "No context recieved");
 			return null;
 		}
 

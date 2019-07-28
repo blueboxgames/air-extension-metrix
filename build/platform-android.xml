@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<platform xmlns="http://ns.adobe.com/air/extension/32.0">
+	<packagedDependencies>
+		<packagedDependency>metrixSDK.jar</packagedDependency>
+		<packagedDependency>retrofit.jar</packagedDependency>
+		<packagedDependency>converter-gson.jar</packagedDependency>
+		<packagedDependency>converter-scalars.jar</packagedDependency>
+		<packagedDependency>okio.jar</packagedDependency>
+		<packagedDependency>okhttp3.jar</packagedDependency>
+		<packagedDependency>logging-interceptor.jar</packagedDependency>
+	</packagedDependencies>
+</platform>

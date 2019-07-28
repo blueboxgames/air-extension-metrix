@@ -1,0 +1,41 @@
+{
+	"type": "app",
+	"config": "airmobile",
+	"airOptions": {
+		"files": [
+			{
+				"file": "files/locale",
+				"path": "locale"
+			}
+		],
+		"android": {
+			"listen": true,
+			"output": "bin/app.apk",
+			"signingOptions": {
+				"storetype": "pkcs12",
+				"keystore": "cert/android.p12"
+			},
+			"extdir": [
+				"exts"
+			]
+		},
+		"extdir": ["exts"]
+	},
+	"application": "application.xml",
+	"compilerOptions": {
+		"source-path": [
+			"src"
+		],
+		"library-path": [
+			"lib",
+			"theme"
+		],
+		"external-library-path": [
+			"exts"
+		],
+		"output": "bin/Applications.swf"
+	},
+	"files": [
+		"src/Application.as"
+	]
+}

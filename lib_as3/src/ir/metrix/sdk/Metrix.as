@@ -1,10 +1,11 @@
 package ir.metrix.sdk
 {
+	import com.android.metrix.Log;
+
 	import flash.events.EventDispatcher;
 	import flash.events.StatusEvent;
 	import flash.external.ExtensionContext;
-	import flash.events.Event;
-	import com.android.metrix.Log;
+	import flash.system.Capabilities;
 
 	public class Metrix extends EventDispatcher
 	{
@@ -12,13 +13,16 @@ package ir.metrix.sdk
 		private var _context:ExtensionContext;
 		private var _appID:String;
 		
+    private static const Android:Boolean = Capabilities.manufacturer.indexOf( "Android" ) > -1;
+		
 		public function Metrix()
 		{
 			super();
-			this._context = ExtensionContext.createExtensionContext("ir.metrix.extension", "");
+			this._context = ExtensionContext.createExtensionContext("ir.metrix.ane", null);
 
 			if (this._context == null)
-				throw new Error("<ir.metrix.extension> not found or is not supported on this platfrom.");
+				trace("<ir.metrix.ane> not found or is not supported on this platfrom.")
+				//throw new Error("<ir.metrix.Metrix> not found or is not supported on this platfrom.");
 			
 			this._context.addEventListener( StatusEvent.STATUS, context_statusHandler);
 		}
@@ -55,7 +59,7 @@ package ir.metrix.sdk
 		{
 			if(this._appID == null)
 			{
-				trace("<ir.metrix.extension> you must setup you app id before initializing.");
+				trace("<ir.metrix.ane> you must setup you app id before initializing.");
 				return;
 			}
 			this._context.call("metrix", "initialize", this._appID);
@@ -216,6 +220,11 @@ package ir.metrix.sdk
 		public function setAppSecret(secretID:Number, info1:Number, info2:Number, info3:Number, info4:Number):void
 		{
 			this._context.call("metrix", "setAppSecret", secretID, info1, info2, info3, info4);
+		}
+
+		public function get isSupported():Boolean
+		{
+			return Android;
 		}
 		// ---------------------
 		// Event handlers
