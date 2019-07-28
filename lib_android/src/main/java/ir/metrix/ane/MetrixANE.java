@@ -21,11 +21,7 @@ public class MetrixANE
 
 	public void initialize(String appid)
 	{
-		Intent appIDIntent = new Intent(this.nativeContext.getActivity(), MetrixANEActivity.class);
-		Bundle mBundle = new Bundle();
-		mBundle.putString("app_id", appid);
-		appIDIntent.putExtras(mBundle);
-		this.nativeContext.getActivity().startActivity(appIDIntent);
+		Metrix.initialize(this.nativeContext.getActivity().getApplication(), appid);
 	}
 
 	public void enableLocationListening()
