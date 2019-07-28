@@ -105,14 +105,6 @@ public class MetrixFunction implements FREFunction
 
 			if ( command.equalsIgnoreCase("eventAttribute") )
 			{
-				// Generate HashMap from arguments.
-
-				// Generate Metrics HashMap.
-				throw new Error("Not Implemented");
-			}
-
-			if ( command.equalsIgnoreCase("eventAttribute") )
-			{
 				String name = args[1].getAsString();
 				String key = args[2].getAsString();
 				String value = args[3].getAsString();
@@ -147,16 +139,29 @@ public class MetrixFunction implements FREFunction
 				return null;
 			}
 
+			if ( command.equalsIgnoreCase("addUserAttribute") )
+			{
+				String attribute = args[1].getAsString();
+				String value = args[2].getAsString();
+				MetrixUserHelper.getInstance().insertAttribute(attribute, value);
+				return null;
+			}
+
 			if ( command.equalsIgnoreCase("addUserAttributes") )
 			{
-				// Generate hashmap?
-				throw new Error("Not Implemented");
+				MetrixUserHelper.getInstance().addUserAttributes();
+			}
+
+			if ( command.equalsIgnoreCase("addUserMetrics") )
+			{
+				String metric = args[1].getAsString();
+				Double value = args[2].getAsDouble();
+				MetrixUserHelper.getInstance().insertMetrics(metric, value);
 			}
 
 			if ( command.equalsIgnoreCase("setUserMetrics") )
 			{
-				// Generate hashmap?
-				throw new Error("Not Implemented");
+				MetrixUserHelper.getInstance().setUserMetrics();
 			}
 
 			if ( command.equalsIgnoreCase("setScreenFlowsAutoFill") )

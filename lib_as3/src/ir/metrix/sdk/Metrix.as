@@ -194,12 +194,18 @@ package ir.metrix.sdk
 
 		public function addUserAttributes(attributes:Object):void
 		{
-			this._context.call("metrix", "addUserAttributes", attributes);
+			var  key:String;
+			for each(key in attributes)
+				this._context.call("metrix", "addUserAttribute", key, attributes[key]);
+			this._context.call("metrix", "addUserAttributes");
 		}
 
-		public function setUserMetrics(attributes:Object):void
+		public function setUserMetrics(metrics:Object):void
 		{
-			this._context.call("metrix", "setUserMetrics", attributes);
+			var  key:String;
+			for each(key in metrics)
+				this._context.call("metrix", "addUserMetrics", key, metrics[key]);
+			this._context.call("metrix", "setUserMetrics");
 		}
 
 		public function set screenFlowsAutoFill(value:Boolean):void

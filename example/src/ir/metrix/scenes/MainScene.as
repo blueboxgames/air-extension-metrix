@@ -15,6 +15,7 @@ package ir.metrix.scenes
 	public class MainScene extends Screen
 	{
 		static public const NAME:String = "main";
+		static public const APPID:String = "wwjrsawgehzhzti";
 		public function MainScene()
 		{
 			super();

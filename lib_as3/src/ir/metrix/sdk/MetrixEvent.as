@@ -41,5 +41,10 @@ package ir.metrix.sdk
 		{
 			this._metrics[key] = value;
 		}
+
+		public function send():void
+		{
+			Metrix.instance.sendEvent(this);
+		}
 	}
 }
