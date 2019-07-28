@@ -56,3 +56,5 @@
 -keep class com.google.android.gms.** { *; }
 
 -dontwarn android.content.pm.PackageInfo
+
+-keep public class com.android.installreferrer.** { *; }
