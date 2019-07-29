@@ -8,11 +8,13 @@ package
 	import flash.geom.Rectangle;
 
 	import starling.core.Starling;
+	import flash.system.Capabilities;
 
 	public class Application extends Sprite
 	{
 		private var _window:NativeWindow;
 		private var _starling:Starling;
+		private var _viewPort:Rectangle;
 
 		public function Application()
 		{
@@ -26,7 +28,10 @@ package
 		private function loaderInfo_completeHandler(e:Event):void
 		{
 			this.loaderInfo.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
-			this._starling = new Starling(Main, this.stage);
+			this._viewPort = new Rectangle(0,0, this.stage.fullScreenWidth, this.stage.fullScreenHeight);
+			this._starling = new Starling(Main, this.stage, this._viewPort);
+			this._starling.stage.stageWidth = 320;
+			this._starling.stage.stageHeight = 480;
 			this._starling.addEventListener("rootCreated", display_rootCreatedHandler);
 			this._starling.supportHighResolutions = true;
 			this._starling.skipUnchangedFrames = true;

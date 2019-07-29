@@ -18,8 +18,7 @@
 			"extdir": [
 				"exts"
 			]
-		},
-		"extdir": ["exts"]
+		}
 	},
 	"application": "application.xml",
 	"compilerOptions": {

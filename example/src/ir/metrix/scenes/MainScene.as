@@ -1,16 +1,16 @@
 package ir.metrix.scenes
 {
+	import feathers.controls.Button;
 	import feathers.controls.Screen;
 	import feathers.layout.AnchorLayout;
-
-	import starling.events.Event;
-	import starling.events.ResizeEvent;
-	
-	import feathers.controls.Button;
 	import feathers.layout.AnchorLayoutData;
 
 	import ir.metrix.sdk.Metrix;
+	import ir.metrix.sdk.MetrixCurrency;
 	import ir.metrix.sdk.MetrixEvent;
+
+	import starling.events.Event;
+	import starling.events.ResizeEvent;
 
 	public class MainScene extends Screen
 	{
@@ -34,21 +34,38 @@ package ir.metrix.scenes
 			this.name = "MainView";
 
 			this.layout = new AnchorLayout();
-			Metrix.instance.appID = APPID;
-			Metrix.instance.initialize();
+			if(Metrix.instance.isSupported)
+			{
+				trace("Device is supported");
+				Metrix.instance.appID = APPID;
+				Metrix.instance.initialize();
+			}
 			
-			var metrixEventButton:Button = new Button();
-			metrixEventButton.label = "Send Metrix Event";
-			metrixEventButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
-			metrixEventButton.addEventListener(Event.TRIGGERED, metrixEventButton_triggeredHandler);
-			this.addChild(metrixEventButton);
+			var newEvent:Button = new Button();
+			newEvent.label = "newEvent";
+			newEvent.layoutData = new AnchorLayoutData(NaN,NaN, NaN ,NaN, 0, -15);
+			if(Metrix.instance.isSupported)
+				newEvent.addEventListener(Event.TRIGGERED, newEvent_triggeredHandler);
+			this.addChild(newEvent);
+
+			var newRevenue:Button = new Button();
+			newRevenue.label = "newRevenue";
+			newRevenue.layoutData = new AnchorLayoutData(NaN,NaN, NaN ,NaN, 0, 15);
+			if(Metrix.instance.isSupported)
+				newRevenue.addEventListener(Event.TRIGGERED, newRevenue_triggeredHanlder);
+			this.addChild(newRevenue);
 		}
 
-		protected function metrixEventButton_triggeredHandler(event:Event):void
+		protected function newEvent_triggeredHandler(event:Event):void
 		{
 			// Event Slug must be recieved from dashboard.
 			var metrixEvent:MetrixEvent = Metrix.instance.newEvent("event_slug");
 			Metrix.instance.sendEvent(metrixEvent);
+		}
+
+		protected function newRevenue_triggeredHanlder(event:Event):void
+		{
+			Metrix.instance.newRevenue("event_slug", 12000, MetrixCurrency.IRR, "0");
 		}
 	}
 }
